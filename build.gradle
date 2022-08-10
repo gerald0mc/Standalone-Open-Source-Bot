@@ -2,16 +2,12 @@ buildscript {
     repositories {
         mavenCentral()
         maven {
-            name = "forge"
+            name = "forge-repo"
             url = "https://files.minecraftforge.net/maven"
         }
         maven {
-            name = 'SpongePowered'
-            url = 'https://repo.spongepowered.org/maven'
-        }
-        maven {
-            name = "plugins"
-            url "https://plugins.gradle.org/m2/"
+            name = "spongepowered-repo"
+            url = "https://repo.spongepowered.org/maven"
         }
     }
     dependencies {
@@ -21,29 +17,29 @@ buildscript {
 
 apply plugin: "net.minecraftforge.gradle"
 
-group = 'me.gerald'
-version = '0.1'
-archivesBaseName = 'gerald-bot'
+group = "me.gerald"
+version = "0.1"
+archivesBaseName = "gerald-bot"
 
 configurations {
     all {
         resolutionStrategy {
-            force 'org.lwjgl.lwjgl:lwjgl-platform:2.9.4-nightly-20150209'
+            force "org.lwjgl.lwjgl:lwjgl-platform:2.9.4-nightly-20150209"
         }
     }
 }
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = "1.8"
 
 minecraft {
     mappings channel: 'stable', version: '39-1.12'
 
     runs {
         client {
-            workingDirectory project.file('run')
+            workingDirectory project.file("run")
 
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
+            property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+            property "forge.logging.console.level", "debug"
         }
     }
 }
@@ -51,12 +47,12 @@ minecraft {
 repositories {
     mavenCentral()
     maven {
-        name = 'spongepowered-repo'
-        url = 'https://repo.spongepowered.org/maven/'
+        name = "spongepowered-repo"
+        url = "https://repo.spongepowered.org/maven/"
     }
     maven {
-        name = 'impactdevelopment-repo'
-        url = 'https://impactdevelopment.github.io/maven/'
+        name = "impactdevelopment-repo"
+        url = "https://impactdevelopment.github.io/maven/"
     }
     maven {
         name = "jitpack.io"
@@ -65,7 +61,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
+    minecraft "net.minecraftforge:forge:1.12.2-14.23.5.2854"
 }
 
 processResources {

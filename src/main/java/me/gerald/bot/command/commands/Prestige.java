@@ -12,10 +12,9 @@ public class Prestige extends Command {
 
     @Override
     public void onCommand(String playerName, String[] args) {
-        super.onCommand(playerName, args);
-        Player player = Bot.INSTANCE.getConfigManager().loadPlayer(playerName);
+        Player player = Bot.getConfigManager().loadPlayer(playerName);
         if (player == null) {
-            Bot.INSTANCE.getConfigManager().savePlayer(new Player(playerName, 0, 0, 0, 0, 0, 0));
+            Bot.getConfigManager().savePlayer(new Player(playerName, 0, 0, 0, 0, 0, 0));
             Util.sendMessage(playerName, "Not enough levels to prestige. (5 min)", true);
             return;
         }
@@ -23,7 +22,7 @@ public class Prestige extends Command {
             Util.sendMessage(playerName, "Not enough levels to prestige. (5 min)", true);
             return;
         }
-        Bot.INSTANCE.getConfigManager().savePlayer(new Player(playerName, player.getPrestige() + 1, player.getLevel() - 5, player.getXp(), player.getBalance(), player.getDiamonds(), player.getBlocks()));
+        Bot.getConfigManager().savePlayer(new Player(playerName, player.getPrestige() + 1, player.getLevel() - 5, player.getXp(), player.getBalance(), player.getDiamonds(), player.getBlocks()));
         Util.sendMessage(playerName, "Congrats you prestiged!", true);
     }
 }

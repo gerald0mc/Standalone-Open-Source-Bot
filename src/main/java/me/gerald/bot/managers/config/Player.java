@@ -1,14 +1,16 @@
 package me.gerald.bot.managers.config;
 
 public class Player {
-    //player name
-    private final String name;
-    //player stats
+    // transient -> prevents Gson from serializing this field
+    private transient final String name;
+
+    // Player stats
     private final int prestige;
     private final int level;
     private final int xp;
     private final int balance;
-    //player inventory
+
+    // Player inventory
     private final int diamonds;
     private final int blocks;
 
