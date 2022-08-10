@@ -2,13 +2,11 @@ package me.gerald.bot.managers;
 
 import com.google.common.reflect.ClassPath;
 import me.gerald.bot.command.Command;
-import me.gerald.bot.command.commands.*;
 import net.minecraft.launchwrapper.Launch;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class CommandManager {
         return commands;
     }
 
-    @SuppressWarnings("UnstableApiUsage")
+    @SuppressWarnings({"UnstableApiUsage", "SameParameterValue"})
     private void loadCommands(String pkg) {
         try {
             for (ClassPath.ClassInfo classInfo : ClassPath.from(Launch.classLoader).getAllClasses()) {

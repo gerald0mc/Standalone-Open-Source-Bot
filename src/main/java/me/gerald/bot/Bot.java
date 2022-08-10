@@ -1,11 +1,8 @@
 package me.gerald.bot;
 
-import me.gerald.bot.command.commands.Mine;
 import me.gerald.bot.managers.CommandManager;
 import me.gerald.bot.managers.EventManager;
 import me.gerald.bot.managers.config.ConfigManager;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
@@ -33,22 +30,21 @@ public class Bot {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(this);
         commandManager = new CommandManager();
         configManager = new ConfigManager();
         eventManager = new EventManager();
         configManager.loadConfig();
     }
 
-    public CommandManager getCommandManager() {
-        return commandManager;
+    public static CommandManager getCommandManager() {
+        return INSTANCE.commandManager;
     }
 
-    public ConfigManager getConfigManager() {
-        return configManager;
+    public static ConfigManager getConfigManager() {
+        return INSTANCE.configManager;
     }
 
-    public EventManager getEventManager() {
-        return eventManager;
+    public static EventManager getEventManager() {
+        return INSTANCE.eventManager;
     }
 }

@@ -4,7 +4,6 @@ import me.gerald.bot.Bot;
 import me.gerald.bot.command.Command;
 import me.gerald.bot.managers.config.Player;
 import me.gerald.bot.utils.Util;
-import net.minecraft.client.Minecraft;
 
 public class Inventory extends Command {
     public Inventory() {
@@ -13,29 +12,29 @@ public class Inventory extends Command {
 
     @Override
     public void onCommand(String playerName, String[] args) {
-        super.onCommand(playerName, args);
         switch (args.length) {
             case 1:
-                Player player = Bot.INSTANCE.getConfigManager().loadPlayer(playerName);
+                Player player = Bot.getConfigManager().loadPlayer(playerName);
                 if (player == null) {
-                    Bot.INSTANCE.getConfigManager().savePlayer(new Player(playerName, 0, 0, 0, 0, 0, 0));
+                    Bot.getConfigManager().savePlayer(new Player(playerName, 0, 0, 0, 0, 0, 0));
                     Util.sendMessage(playerName, "Diamonds [0] Blocks [0]", true);
                     return;
                 }
                 Util.sendMessage(playerName, "Diamonds [" + player.getDiamonds() + "] Blocks [" + player.getBlocks() + "]", true);
                 break;
             case 2:
-                if (!playerName.equalsIgnoreCase(Minecraft.getMinecraft().player.getDisplayNameString())) {
+                if (!playerName.equalsIgnoreCase(mc.player.getDisplayNameString())) {
                     Util.sendMessage(playerName, "Sorry you don't have permission to use that command.", true);
                     return;
                 }
-                Player targetPlayer = Bot.INSTANCE.getConfigManager().loadPlayer(args[1]);
+                Player targetPlayer = Bot.getConfigManager().loadPlayer(args[1]);
                 if (targetPlayer == null) {
-                    Bot.INSTANCE.getConfigManager().savePlayer(new Player(playerName, 0, 0, 0, 0, 0, 0));
-                    Util.sendMessage(playerName, targetPlayer.getName() + " Diamonds [0] Blocks [0]", false);
+                    Bot.getConfigManager().savePlayer(new Player(args[1], 0, 0, 0, 0, 0, 0));
+                    Util.sendMessage(playerName, args[1] + " Diamonds [0] Blocks [0]", false);
                     return;
                 }
                 Util.sendMessage(playerName, targetPlayer.getName() + " Diamonds [" + targetPlayer.getDiamonds() + "] Blocks [" + targetPlayer.getBlocks() + "]", false);
+                break;
         }
     }
 }

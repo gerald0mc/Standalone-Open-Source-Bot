@@ -1,23 +1,27 @@
 package me.gerald.bot.command;
 
-import me.gerald.bot.Bot;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 
-public class Command {
+public abstract class Command {
     private final String name;
     private final String[] usage;
-    private boolean isAdminCommand = false;
+    private final boolean isAdminCommand;
 
-    public static Minecraft mc = Minecraft.getMinecraft();
+    protected static Minecraft mc = Minecraft.getMinecraft();
 
     public Command(String name, String[] usage) {
+        this(name, usage, false);
+    }
+
+    public Command(String name, String[] usage, boolean isAdminCommand) {
         MinecraftForge.EVENT_BUS.register(this);
         this.name = name;
         this.usage = usage;
+        this.isAdminCommand = isAdminCommand;
     }
 
-    public void onCommand(String playerName, String[] args) { }
+    public abstract void onCommand(String playerName, String[] args);
 
     public String getName() {
         return name;
@@ -25,10 +29,6 @@ public class Command {
 
     public String[] getUsage() {
         return usage;
-    }
-
-    public void setIsAdminCommand(boolean isAdminCommand) {
-        this.isAdminCommand = isAdminCommand;
     }
 
     public boolean isAdminCommand() {
