@@ -1,0 +1,16 @@
+[
+    {
+        "modid": "gerald-bot",
+        "name": "Gerald Bot",
+        "description": "The bot I use for bot things.",
+        "version": "${version}",
+        "mcversion": "${mcversion}",
+        "url": "https://github.com/gerald0mc",
+        "updateUrl": "https://fuck.you",
+        "authorList": ["gerald0mc"],
+        "credits": "",
+        "logoFile": "",
+        "screenshots": [],
+        "dependencies": []
+    }
+]
