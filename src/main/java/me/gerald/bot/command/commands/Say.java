@@ -1,6 +1,7 @@
 package me.gerald.bot.command.commands;
 
 import me.gerald.bot.command.Command;
+import me.gerald.bot.utils.Util;
 
 public class Say extends Command {
     public Say() {
@@ -21,7 +22,7 @@ public class Say extends Command {
             message.append(s).append(" ");
         }
         if (message.toString().contains("/") || message.toString().contains("!")) {
-            sendMessage(playerName, "Nice try!", true);
+            Util.sendMessage(playerName, "Nice try!", true);
             return;
         }
         mc.player.sendChatMessage(message.toString());

@@ -18,7 +18,7 @@ public class Bot {
 
     public static final String MOD_ID = "gerald-bot";
     public static final String MOD_NAME = "GeraldBot";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "0.1";
 
     @Mod.Instance(MOD_ID)
     public static Bot INSTANCE;
@@ -50,13 +50,5 @@ public class Bot {
 
     public EventManager getEventManager() {
         return eventManager;
-    }
-
-    public static void sendMessage(String playerName, String message, boolean lowerFirst) {
-        if (Bot.dmPlayer && !playerName.equalsIgnoreCase(Minecraft.getMinecraft().player.getDisplayNameString())) {
-            Minecraft.getMinecraft().player.sendChatMessage("/msg " + playerName + " " + (lowerFirst ? playerName + " " + message.replace(message.split(" ")[0], message.split(" ")[0].toLowerCase()) : message));
-        } else {
-            Minecraft.getMinecraft().player.sendChatMessage((Bot.greenText ? "> " : "") + (lowerFirst ? playerName + " " : " ") + message);
-        }
     }
 }

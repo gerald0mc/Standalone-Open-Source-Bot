@@ -10,13 +10,12 @@ import net.minecraft.client.Minecraft;
 import java.io.*;
 
 public class ConfigManager {
-    private final Gson gson;
-    private final JsonParser parser;
-    private final File saveDir;
+    public final Gson gson;
+    public final JsonParser parser;
+    public final File saveDir;
     public final File statDir;
-    private final File miscDir;
-    private final File configFile;
-    private final File adminFile;
+    public final File miscDir;
+    public final File configFile;
 
     public ConfigManager() {
         this.saveDir = new File(Minecraft.getMinecraft().gameDir, "Bot");
@@ -36,19 +35,6 @@ public class ConfigManager {
             try {
                 configFile.createNewFile();
                 saveConfig(true, true, Bot.botName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        adminFile = new File(miscDir, "Admins.json");
-        if (!adminFile.exists()) {
-            try {
-                adminFile.createNewFile();
-                final BufferedWriter writer = new BufferedWriter(new FileWriter(adminFile));
-                final JsonObject blankObject = new JsonObject();
-                gson.toJson(blankObject, writer);
-                writer.flush();
-                writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -94,6 +80,7 @@ public class ConfigManager {
             final JsonObject jsonObject = parser.parse(reader).getAsJsonObject();
             final JsonObject statObject = jsonObject.get("Stats").getAsJsonObject();
             final JsonObject invObject = jsonObject.get("Inventory").getAsJsonObject();
+            reader.close();
             return new Player(name, statObject.get("Prestige").getAsInt(), statObject.get("Level").getAsInt(), statObject.get("XP").getAsInt(), statObject.get("Balance").getAsInt(), invObject.get("Diamonds").getAsInt(), invObject.get("Blocks").getAsInt());
         } catch (IOException e) {
             e.printStackTrace();
@@ -113,7 +100,7 @@ public class ConfigManager {
             jsonObject.addProperty("BotName", botName);
             final BufferedWriter writer = new BufferedWriter(new FileWriter(configFile));
             gson.toJson(jsonObject, writer);
-            System.out.println("Saved GeraldBot config.");
+            System.out.println("Saved " + Bot.botName + "Bot config.");
             writer.flush();
             writer.close();
             loadConfig();
@@ -130,6 +117,7 @@ public class ConfigManager {
             Bot.dmPlayer = jsonObject.get("DMPlayer").getAsBoolean();
             Bot.botName = jsonObject.get("BotName").getAsString();
             System.out.println("Loaded " + Bot.botName + "Bot config.");
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -7,6 +7,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class Command {
     private final String name;
     private final String[] usage;
+    private boolean isAdminCommand = false;
 
     public static Minecraft mc = Minecraft.getMinecraft();
 
@@ -26,11 +27,11 @@ public class Command {
         return usage;
     }
 
-    public void sendMessage(String playerName, String message, boolean lowerFirst) {
-        if (Bot.dmPlayer && !playerName.equalsIgnoreCase(mc.player.getDisplayNameString())) {
-            mc.player.sendChatMessage("/msg " + playerName + " " + (lowerFirst ? playerName + " " + message.replace(message.split(" ")[0], message.split(" ")[0].toLowerCase()) : message));
-        } else {
-            mc.player.sendChatMessage((Bot.greenText ? "> " : "") + (lowerFirst ? playerName + " " : " ") + message);
-        }
+    public void setIsAdminCommand(boolean isAdminCommand) {
+        this.isAdminCommand = isAdminCommand;
+    }
+
+    public boolean isAdminCommand() {
+        return isAdminCommand;
     }
 }

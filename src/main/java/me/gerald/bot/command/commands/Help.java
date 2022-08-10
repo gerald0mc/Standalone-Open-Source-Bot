@@ -2,6 +2,7 @@ package me.gerald.bot.command.commands;
 
 import me.gerald.bot.Bot;
 import me.gerald.bot.command.Command;
+import me.gerald.bot.utils.Util;
 import net.minecraft.util.text.TextComponentString;
 
 public class Help extends Command {
@@ -14,15 +15,8 @@ public class Help extends Command {
         super.onCommand(playerName, args);
         StringBuilder message = new StringBuilder("Commands: ");
         for (Command command : Bot.INSTANCE.getCommandManager().getCommands()) {
-            message.append(Bot.INSTANCE.getEventManager().getChatListener().returnFirstLetter()).append(command.getUsage()[0]).append(" ");
+            message.append(Util.returnFirstLetter()).append(command.getUsage()[0]).append(" " + (command.isAdminCommand() ? "ADMIN " : ""));
         }
-        sendMessage(playerName, message.toString(), false);
-        if (playerName.equalsIgnoreCase(mc.player.getDisplayNameString())) {
-            StringBuilder adminMessage = new StringBuilder("Admin Commands: ");
-            for (Command command : Bot.INSTANCE.getCommandManager().getAdminCommands()) {
-                adminMessage.append(Bot.INSTANCE.getEventManager().getChatListener().returnFirstLetter()).append(command.getUsage()[0]).append(" ");
-            }
-            mc.player.sendMessage(new TextComponentString(adminMessage.toString()));
-        }
+        Util.sendMessage(playerName, message.toString(), false);
     }
 }
