@@ -17,7 +17,6 @@ public class ChatListener {
 
     @SubscribeEvent
     public void onMessage(ClientChatReceivedEvent event) {
-        event.setCanceled(false);
         if (Minecraft.getMinecraft().player == null || Minecraft.getMinecraft().world == null) return;
         String[] message = event.getMessage().getUnformattedText().split(" ");
         String playerName = event.getMessage().getUnformattedText().substring(1, event.getMessage().getUnformattedText().indexOf(">"));
