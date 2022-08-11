@@ -21,6 +21,4 @@ in the future!
 
 ## Known Issues?
 
-* At the moment the bot cancels you from getting any server messages client side (Death messages, Join messages,
-  Whispers, etc...), the messages are still being sent to the server it is just for some reason you can't see them. I am
-  working on trying to fix this.
+* None ATM
