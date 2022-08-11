@@ -10,6 +10,10 @@ public class Util {
         return Bot.botName.split("")[0] + "_";
     }
 
+    public static void sendMessage(String playerName, String message) {
+        sendMessage(playerName, message, false);
+    }
+
     public static void sendMessage(String playerName, String message, boolean lowerFirst) {
         if (Bot.dmPlayer && !playerName.equalsIgnoreCase(mc.player.getDisplayNameString())) {
             mc.player.sendChatMessage("/msg " + playerName + " " + (lowerFirst ? playerName + " " + message.replace(message.split(" ")[0], message.split(" ")[0].toLowerCase()) : message));
