@@ -16,6 +16,7 @@ public class Lookup extends Command {
             Util.sendMessage(playerName, "Please perform the " + Util.returnFirstLetter() + "_help command to properly perform this command.", true);
             return;
         }
+        Player player = Bot.getConfigManager().loadPlayer(playerName);
         switch (args[1]) {
             case "stats":
                 Player targetPlayer = Bot.getConfigManager().loadPlayer(args[2]);

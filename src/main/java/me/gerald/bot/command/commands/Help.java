@@ -13,10 +13,12 @@ public class Help extends Command {
     public void onCommand(String playerName, String[] args) {
         StringBuilder message = new StringBuilder("Commands: ");
         for (Command command : Bot.getCommandManager().getCommands()) {
-            message.append(Util.returnFirstLetter())
-                    .append(command.getUsage()[0])
-                    .append(" ")
-                    .append(command.isAdminCommand() ? "ADMIN " : "");
+            message.append(Util.returnFirstLetter());
+            for (int i = 0; i < command.getUsage().length; i++) {
+                message.append(command.getUsage()[i])
+                        .append(" ");
+            }
+            message.append(command.isAdminCommand() ? "ADMIN " : "");
         }
         Util.sendMessage(playerName, message.toString(), false);
     }

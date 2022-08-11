@@ -17,15 +17,20 @@ public class ChatListener {
 
     @SubscribeEvent
     public void onMessage(ClientChatReceivedEvent event) {
-        if (Minecraft.getMinecraft().player == null || Minecraft.getMinecraft().world == null) return;
         String[] message = event.getMessage().getUnformattedText().split(" ");
-        String playerName = event.getMessage().getUnformattedText().substring(1, event.getMessage().getUnformattedText().indexOf(">"));
-        if (message[1].contains(Util.returnFirstLetter())) {
+        String playerName = "";
+        try {
+            playerName = event.getMessage().getUnformattedText().substring(1, event.getMessage().getUnformattedText().indexOf(">"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (playerName.equals("")) return;
+        if (message[1].trim().startsWith(Util.returnFirstLetter())) {
             for (Command command : Bot.getCommandManager().getCommands()) {
                 if (message[1].equalsIgnoreCase(Util.returnFirstLetter() + command.getUsage()[0])) {
                     if (command.isAdminCommand() && !playerName.equalsIgnoreCase(Minecraft.getMinecraft().player.getDisplayNameString())) {
                         Util.sendMessage(playerName, "Sorry you don't have permission to use this command.", true);
-                        return;
+                        break;
                     }
                     String[] args = Arrays.copyOfRange(message, 1, message.length);
                     command.onCommand(playerName, args);

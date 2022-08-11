@@ -18,7 +18,7 @@ buildscript {
 apply plugin: "net.minecraftforge.gradle"
 
 group = "me.gerald"
-version = "0.1"
+version = "0.2"
 archivesBaseName = "gerald-bot"
 
 configurations {

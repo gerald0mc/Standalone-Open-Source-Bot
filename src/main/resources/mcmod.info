@@ -2,13 +2,13 @@
     {
         "modid": "gerald-bot",
         "name": "Gerald Bot",
-        "description": "The bot I use for bot things.",
-        "version": "${version}",
-        "mcversion": "${mcversion}",
+        "description": "A free open source bot for all your bot needs.",
+        "version": "0.2",
+        "mcversion": "1.12.2",
         "url": "https://github.com/gerald0mc",
         "updateUrl": "https://fuck.you",
         "authorList": ["gerald0mc"],
-        "credits": "",
+        "credits": "I'd like to thank my huge cock for the inspo.",
         "logoFile": "",
         "screenshots": [],
         "dependencies": []
