@@ -3,6 +3,8 @@
 A free standalone open source bot for Minecraft 1.12.2. The bot has has a multitude of fun commands as well more planned
 in the future!
 
+FEEL FREE TO SUBMIT A PULL REQ AS LONG AS IT IS BENEFICIAL TO THE BOT I WILL ADD IT!
+
 ## How to Use?
 
 * There are two main folder for you to use in the .minecraft folder which is called Bot, when you enter that folder you
