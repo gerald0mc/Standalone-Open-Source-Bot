@@ -4,7 +4,6 @@ import me.gerald.bot.Bot;
 import me.gerald.bot.command.Command;
 import me.gerald.bot.managers.config.Player;
 import me.gerald.bot.utils.Util;
-import net.minecraft.client.Minecraft;
 
 public class Stats extends Command {
     public Stats() {

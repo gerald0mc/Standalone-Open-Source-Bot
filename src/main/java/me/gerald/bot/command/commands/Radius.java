@@ -4,6 +4,8 @@ import me.gerald.bot.command.Command;
 import me.gerald.bot.utils.Util;
 import net.minecraft.entity.player.EntityPlayer;
 
+import java.util.stream.Collectors;
+
 public class Radius extends Command {
     public Radius() {
         super("Radius", new String[] {"radius"});
@@ -11,15 +13,10 @@ public class Radius extends Command {
 
     @Override
     public void onCommand(String playerName, String[] args) {
-        StringBuilder message = new StringBuilder("Players in Radius: ");
-        for (EntityPlayer player : mc.world.playerEntities) {
-            if (player == mc.player) continue;
-            message
-                    .append(player.getDisplayNameString())
-                    .append(" ");
-        }
-        if (message.toString().equals("Players in Radius: "))
-            message.append("I am lonely :(");
-        Util.sendMessage(playerName, message.toString(), false);
+        String radius = mc.world.playerEntities.stream()
+                .filter(player -> player != mc.player)
+                .map(EntityPlayer::getDisplayNameString)
+                .collect(Collectors.joining(", "));
+        Util.sendMessage(playerName, "Players in Radius: " + (radius.isEmpty() ? "I am lonely :(" : radius));
     }
 }
