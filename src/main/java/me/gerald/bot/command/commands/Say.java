@@ -19,7 +19,11 @@ public class Say extends Command {
         }
         String message = Arrays.stream(args)
                 .skip(1).collect(Collectors.joining(" "));
-        if (message.trim().startsWith("/") || message.trim().startsWith("!")) {
+        if (message.trim().startsWith("/")  // general commands
+                || message.trim().startsWith("!") // lolritter + moomoo
+                || message.trim().startsWith("#") // baritone-api-forge
+                || message.trim().startsWith("*") // rhack
+                || message.trim().startsWith(".")) { // future
             Util.sendMessage(playerName, "Nice try!", true);
             return;
         }

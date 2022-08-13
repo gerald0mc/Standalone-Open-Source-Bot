@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class EventManager {
-    private static final String[] joinMessages = new String[]{
+    private static final String[] joinMessages = new String[] {
             " is alive!",
             " initialized!",
             " is online!",
@@ -31,6 +31,11 @@ public class EventManager {
             " is deep in a milf!",
             " is hitting the nae nae!",
             " is fucking bitches now!"
+    };
+    private static final String[] adMessages = new String[] {
+            "Reminder to add the creator of this bot on discord :D gerald0mc#5743",
+            "Reminder to star this bots repo on github :D https://github.com/gerald0mc/Standalone-Open-Source-Bot",
+            "Reminder to use " + Util.returnFirstLetter() + "help to see all available commands for use :D"
     };
     private static final Minecraft mc = Minecraft.getMinecraft();
 
@@ -57,7 +62,7 @@ public class EventManager {
                         return;
                     }
 
-                    mc.player.sendChatMessage("Reminder to add the creator of this bot on discord :D gerald0mc#5743");
+                    Util.sendMessage(mc.player.getDisplayNameString(), adMessages[random.nextInt(adMessages.length)]);
                 } catch (Exception e) {
                     messageExecutor.shutdown();
                 }

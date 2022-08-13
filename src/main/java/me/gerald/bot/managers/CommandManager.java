@@ -2,6 +2,7 @@ package me.gerald.bot.managers;
 
 import com.google.common.reflect.ClassPath;
 import me.gerald.bot.command.Command;
+import me.gerald.bot.command.commands.*;
 import net.minecraft.launchwrapper.Launch;
 
 import java.lang.reflect.Constructor;
@@ -15,7 +16,19 @@ public class CommandManager {
 
     public CommandManager() {
         commands = new LinkedList<>();
-        loadCommands("me.gerald.bot.command.commands");
+        // loadCommands("me.gerald.bot.command.commands");
+        commands.add(new Craft());
+        commands.add(new Help());
+        commands.add(new Inventory());
+        commands.add(new Lookup());
+        commands.add(new Mine());
+        commands.add(new Pos());
+        commands.add(new Prestige());
+        commands.add(new Radius());
+        commands.add(new Reload());
+        commands.add(new Say());
+        commands.add(new Stats());
+        commands.add(new Want());
     }
 
     public List<Command> getCommands() {

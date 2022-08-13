@@ -13,10 +13,6 @@ public class Help extends Command {
 
     @Override
     public void onCommand(String playerName, String[] args) {
-        String message = Bot.getCommandManager().getCommands().stream()
-                .map(command -> String.join(" ", command.getUsage()) + (command.isAdminCommand() ? " ADMIN" : ""))
-                .map(string -> Util.returnFirstLetter() + string)
-                .collect(Collectors.joining(", "));
-        Util.sendMessage(playerName, message);
+        Util.sendMessage(playerName, "Command List: https://github.com/gerald0mc/Standalone-Open-Source-Bot/blob/main/Bot-Commands.md");
     }
 }

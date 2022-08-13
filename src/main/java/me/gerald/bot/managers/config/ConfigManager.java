@@ -50,12 +50,25 @@ public class ConfigManager {
                 file.delete();
             }
             file.createNewFile();
-            // Saving the JSON
-            try (final BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-                gson.toJson(player, writer);
-                System.out.println("Saved new player: " + player.getName());
-                writer.flush();
-            }
+            final JsonObject jsonObject = new JsonObject();
+            //Stats
+            final JsonObject statObject = new JsonObject();
+            statObject.addProperty("Prestige", player.getPrestige());
+            statObject.addProperty("Level", player.getLevel());
+            statObject.addProperty("XP", player.getXp());
+            statObject.addProperty("Balance", player.getBalance());
+            jsonObject.add("Stats", statObject);
+            //Inventory
+            final JsonObject invObject = new JsonObject();
+            invObject.addProperty("Diamonds", player.getDiamonds());
+            invObject.addProperty("Blocks", player.getBlocks());
+            jsonObject.add("Inventory", invObject);
+            //Saving the JSON
+            final BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            gson.toJson(jsonObject, writer);
+            System.out.println("Saved new player: " + player.getName());
+            writer.flush();
+            writer.close();
         } catch (IOException e) {
             System.out.println("Error saving stats of player: " + player.getName());
         }
@@ -65,9 +78,12 @@ public class ConfigManager {
         try {
             final File playerFile = new File(statDir, name + ".json");
             if (!playerFile.exists()) return null;
-            try (final BufferedReader reader = new BufferedReader(new FileReader(playerFile))) {
-                return gson.fromJson(reader.lines().collect(Collectors.joining("\n")), Player.class);
-            }
+            final BufferedReader reader = new BufferedReader(new FileReader(playerFile));
+            final JsonObject jsonObject = parser.parse(reader).getAsJsonObject();
+            final JsonObject statObject = jsonObject.get("Stats").getAsJsonObject();
+            final JsonObject invObject = jsonObject.get("Inventory").getAsJsonObject();
+            reader.close();
+            return new Player(name, statObject.get("Prestige").getAsInt(), statObject.get("Level").getAsInt(), statObject.get("XP").getAsInt(), statObject.get("Balance").getAsInt(), invObject.get("Diamonds").getAsInt(), invObject.get("Blocks").getAsInt());
         } catch (IOException e) {
             e.printStackTrace();
         }

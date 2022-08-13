@@ -13,7 +13,7 @@ public class Lookup extends Command {
     @Override
     public void onCommand(String playerName, String[] args) {
         if (args.length != 3) {
-            Util.sendMessage(playerName, "Please perform the " + Util.returnFirstLetter() + "_help command to properly perform this command.", true);
+            Util.sendMessage(playerName, "Please perform the " + Util.returnFirstLetter() + "help command to properly perform this command.", true);
             return;
         }
         switch (args[1]) {
