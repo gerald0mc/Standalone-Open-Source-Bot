@@ -41,6 +41,8 @@ public class EventManager {
 
     private final Random random = new Random();
     private ChatListener chatListener = null;
+    private ScheduledExecutorService messageExecutor = null;
+    private ScheduledExecutorService reloadExecutor = null;
 
     public EventManager() {
         MinecraftForge.EVENT_BUS.register(this);
@@ -54,57 +56,62 @@ public class EventManager {
             }
             mc.player.sendChatMessage(Bot.botName + "Bot" + joinMessages[random.nextInt(joinMessages.length)] + " You can use " + Util.returnFirstLetter() + "help to see all commands you can use!");
 
-            ScheduledExecutorService messageExecutor = Executors.newSingleThreadScheduledExecutor();
-            messageExecutor.scheduleAtFixedRate(() -> {
-                try {
-                    if (mc.player == null || mc.world == null) {
+            if (messageExecutor == null) {
+                messageExecutor = Executors.newSingleThreadScheduledExecutor();
+                messageExecutor.scheduleAtFixedRate(() -> {
+                    try {
+                        if (mc.player == null || mc.world == null) {
+                            messageExecutor.shutdown();
+                            messageExecutor = null;
+                            return;
+                        }
+
+                        Util.sendMessage(mc.player.getDisplayNameString(), adMessages[random.nextInt(adMessages.length)]);
+                    } catch (Exception e) {
                         messageExecutor.shutdown();
-                        return;
                     }
+                }, 20, 1200, TimeUnit.SECONDS);
+            }
+            if (reloadExecutor == null) {
+                reloadExecutor = Executors.newSingleThreadScheduledExecutor();
+                reloadExecutor.scheduleAtFixedRate(() -> {
+                    try {
+                        if (mc.player == null || mc.world == null) {
+                            reloadExecutor.shutdown();
+                            reloadExecutor = null;
+                            return;
+                        }
 
-                    Util.sendMessage(mc.player.getDisplayNameString(), adMessages[random.nextInt(adMessages.length)]);
-                } catch (Exception e) {
-                    messageExecutor.shutdown();
-                }
-            }, 20, 600, TimeUnit.SECONDS);
-
-            ScheduledExecutorService reloadExecutor = Executors.newSingleThreadScheduledExecutor();
-            reloadExecutor.scheduleAtFixedRate(() -> {
-                try {
-                    if (mc.player == null || mc.world == null) {
-                        reloadExecutor.shutdown();
-                        return;
-                    }
-
-                    try (Stream<Path> pathStream = Files.walk(Paths.get(Bot.getConfigManager().statDir.getPath()), 1)) {
-                        for (Path path : pathStream
-                                .filter(Files::isRegularFile)
-                                .filter(path -> path.getFileName().toString().endsWith(".json"))
-                                .collect(Collectors.toList())) {
-                            String playerName = path.getFileName().toString().replace(".json", "");
-                            Player player = Bot.getConfigManager().loadPlayer(playerName);
-                            if (player == null) {
-                                System.out.println(playerName + " is a null Player.");
-                                continue;
-                            }
-                            if (player.getXp() >= 1000) {
-                                Bot.getConfigManager().savePlayer(new Player(playerName, player.getPrestige(), player.getLevel() + 1, player.getXp() - 1000, player.getBalance(), player.getDiamonds(), player.getBlocks()));
-                                for (EntityPlayer p : mc.world.playerEntities) {
-                                    if (p.getDisplayNameString().equalsIgnoreCase(playerName)) {
-                                        Util.sendMessage(p.getDisplayNameString(), "Congrats you are now level " + (player.getLevel() + 1) + "!", true);
+                        try (Stream<Path> pathStream = Files.walk(Paths.get(Bot.getConfigManager().statDir.getPath()), 1)) {
+                            for (Path path : pathStream
+                                    .filter(Files::isRegularFile)
+                                    .filter(path -> path.getFileName().toString().endsWith(".json"))
+                                    .collect(Collectors.toList())) {
+                                String playerName = path.getFileName().toString().replace(".json", "");
+                                Player player = Bot.getConfigManager().loadPlayer(playerName);
+                                if (player == null) {
+                                    System.out.println(playerName + " is a null Player.");
+                                    continue;
+                                }
+                                if (player.getXp() >= 1000) {
+                                    Bot.getConfigManager().savePlayer(new Player(playerName, player.getPrestige(), player.getLevel() + 1, player.getXp() - 1000, player.getBalance(), player.getDiamonds(), player.getBlocks()));
+                                    for (EntityPlayer p : mc.world.playerEntities) {
+                                        if (p.getDisplayNameString().equalsIgnoreCase(playerName)) {
+                                            Util.sendMessage(p.getDisplayNameString(), "Congrats you are now level " + (player.getLevel() + 1) + "!", true);
+                                        }
                                     }
                                 }
-                            }
 
-                            System.out.println(path.getFileName());
+                                System.out.println(path.getFileName());
+                            }
                         }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        reloadExecutor.shutdown();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    reloadExecutor.shutdown();
-                }
-            }, 10, 60, TimeUnit.SECONDS);
+                }, 10, 60, TimeUnit.SECONDS);
+            }
         }
     }
 
